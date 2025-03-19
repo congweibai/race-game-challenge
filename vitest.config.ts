@@ -8,5 +8,8 @@ export default defineConfig({
     globals: true, // allows us to use vitest library methods in unit test without explicit imports
     environment: "jsdom",
     setupFiles: "./setup-test.ts", // path to setup file
+    coverage: {
+      provider: "v8",
+    },
   },
 });

@@ -1,0 +1,35 @@
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+name: Run Automate Test on every Pull Request
+jobs:
+  build:
+    name: Run Automate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+      - name: Use Node.js 23.10.0
+        uses: actions/setup-node@v3
+        with:
+          node-version: 23.10.0
+      - name: Cache node_modules
+        id: cache-modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('package.json') }}
+      - name: Install Dependencies
+        if: steps.cache-modules.outputs.cache-hit != 'true'
+        run: npm install
+      - name: Run test
+        run: npm run coverage
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: ./coverage
+      - name: Build Project
+        run: npm run build
