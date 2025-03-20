@@ -1,5 +1,5 @@
-import { adjustRacePlacements } from "@/helpes/adjustRacePlacements";
-import { createRaceArray } from "@/helpes/createRaceArray";
+import { adjustRacePlacements } from "@/helpers/adjustRacePlacements";
+import { createRaceArray } from "@/helpers/createRaceArray";
 import { useStudentList } from "@/hooks/useStudentList";
 import { Rank } from "@/mockApis/types";
 import { Race } from "@/types";

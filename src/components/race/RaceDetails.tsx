@@ -1,4 +1,4 @@
-import { calculateRaceResultsWithOrderSort } from "@/helpes/calculateRaceResultsWithOrderSort";
+import { calculateRaceResultsWithOrderSort } from "@/helpers/calculateRaceResultsWithOrderSort";
 import { useStudentList } from "@/hooks/useStudentList";
 import { Race } from "@/types";
 import { useState } from "react";
