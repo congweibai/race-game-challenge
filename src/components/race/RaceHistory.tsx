@@ -3,7 +3,7 @@ import { useState } from "react";
 import { RaceDetails } from "./RaceDetails";
 
 export const RaceHistory = () => {
-  const { raceList } = useRaceList();
+  const { raceList, getAllLanes: refreshRaceList } = useRaceList();
   const [activeRaceId, setActiveRaceId] = useState<string | null>(null);
 
   return (
@@ -17,7 +17,9 @@ export const RaceHistory = () => {
                 {race.raceName}
               </button>
               <div>
-                {activeRaceId === race.id ? <RaceDetails race={race} /> : null}
+                {activeRaceId === race.id ? (
+                  <RaceDetails race={race} onRefreshList={refreshRaceList} />
+                ) : null}
               </div>
             </li>
           );

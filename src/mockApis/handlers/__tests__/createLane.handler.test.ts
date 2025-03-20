@@ -1,15 +1,15 @@
-import { createLaneService } from "@/mockApis/services/lane.service";
-import { CreateLaneHanderPayload } from "@/mockApis/types";
+import { createRaceService } from "@/mockApis/services/race.service";
+import { CreateRaceHanderPayload } from "@/mockApis/types";
 import { describe, expect, it, Mock, vi } from "vitest";
-import { createLaneHandler } from "../createLane.handler";
+import { createRaceHandler } from "../createRace.handler";
 
-vi.mock("@/mockApis/services/lane.service", () => ({
-  createLaneService: vi.fn(),
+vi.mock("@/mockApis/services/race.service", () => ({
+  createRaceService: vi.fn(),
 }));
 
-describe("createLaneHandler", () => {
-  it("should call createLaneService with the correct payload", async () => {
-    const mockPayload: CreateLaneHanderPayload = {
+describe("createRaceHandler", () => {
+  it("should call createRaceService with the correct payload", async () => {
+    const mockPayload: CreateRaceHanderPayload = {
       raceName: "New Race Game!",
       lanes: [
         {
@@ -24,19 +24,19 @@ describe("createLaneHandler", () => {
     };
 
     // Mock resolved value
-    (createLaneService as Mock).mockResolvedValue({ success: true });
+    (createRaceService as Mock).mockResolvedValue({ success: true });
 
     // Call the handler
-    const result = await createLaneHandler(mockPayload);
+    const result = await createRaceHandler(mockPayload);
 
     // Assertions
-    expect(createLaneService).toHaveBeenCalledTimes(1);
-    expect(createLaneService).toHaveBeenCalledWith(mockPayload);
+    expect(createRaceService).toHaveBeenCalledTimes(1);
+    expect(createRaceService).toHaveBeenCalledWith(mockPayload);
     expect(result).toEqual({ success: true });
   });
 
   it("should handle service rejection", async () => {
-    const mockPayload: CreateLaneHanderPayload = {
+    const mockPayload: CreateRaceHanderPayload = {
       raceName: "New Race Game!",
       lanes: [
         {
@@ -51,11 +51,11 @@ describe("createLaneHandler", () => {
     };
 
     // Mock rejected value
-    (createLaneService as Mock).mockRejectedValue(new Error("Service error"));
+    (createRaceService as Mock).mockRejectedValue(new Error("Service error"));
 
-    await expect(createLaneHandler(mockPayload)).rejects.toThrow(
+    await expect(createRaceHandler(mockPayload)).rejects.toThrow(
       "Service error"
     );
-    expect(createLaneService).toHaveBeenCalledWith(mockPayload);
+    expect(createRaceService).toHaveBeenCalledWith(mockPayload);
   });
 });

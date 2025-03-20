@@ -25,7 +25,13 @@ export const RacePanel = () => {
           Race history
         </button>
       </div>
-      {tab === RacePaneTab.CREATE_NEW_RACE ? <CreateRace /> : null}
+      {tab === RacePaneTab.CREATE_NEW_RACE ? (
+        <CreateRace
+          onFinshed={() => {
+            setTab(RacePaneTab.RACE_HISTORY);
+          }}
+        />
+      ) : null}
       {tab === RacePaneTab.RACE_HISTORY ? <RaceHistory /> : null}
     </div>
   );

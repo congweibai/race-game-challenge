@@ -1,5 +1,5 @@
 import { useStudentList } from "@/hooks/useStudentList";
-import { createLaneHandler } from "@/mockApis/handlers/createLane.handler";
+import { createRaceHandler } from "@/mockApis/handlers/createRace.handler";
 import { useEffect } from "react";
 import {
   Controller,
@@ -18,7 +18,7 @@ type RaceInputs = {
   raceName: string;
 };
 
-export const CreateRace = () => {
+export const CreateRace = ({ onFinshed }: { onFinshed: () => void }) => {
   const { studentList } = useStudentList();
   const allStudentOptions = studentList.map((student) => {
     return {
@@ -83,7 +83,8 @@ export const CreateRace = () => {
     // mock api;
     console.log(data);
 
-    createLaneHandler(data);
+    createRaceHandler(data);
+    onFinshed();
   };
 
   useEffect(() => {
