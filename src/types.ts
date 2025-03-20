@@ -5,7 +5,7 @@ export type Student = {
 
 export type Lane = {
   id: string;
-  laneName: string;
+  laneId: string;
   order?: number;
   studentId: string;
 };
