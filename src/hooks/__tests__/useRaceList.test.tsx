@@ -11,22 +11,22 @@ vi.mock("@/__tests__/mock", () => ({
       lanes: [
         {
           id: "1",
-          laneName: "Lane 1",
+          laneId: "Lane 1",
           studentId: "1",
         },
         {
           id: "2",
-          laneName: "Lane 2",
+          laneId: "Lane 2",
           studentId: "2",
         },
         {
           id: "3",
-          laneName: "Lane 3",
+          laneId: "Lane 3",
           studentId: "3",
         },
         {
           id: "4",
-          laneName: "Lane 4",
+          laneId: "Lane 4",
           studentId: "4",
         },
       ],
