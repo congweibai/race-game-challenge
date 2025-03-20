@@ -77,7 +77,7 @@ describe("CreateRace Component", () => {
     const user = userEvent.setup();
     const mockOnRefresh = vi.fn();
     render(<CreateRace onFinshed={mockOnRefresh} />);
-    const submitButton = screen.getByRole("button", { name: "submit" });
+    const submitButton = screen.getByRole("button", { name: "Submit" });
     // run useEffect to first valid form on init
     await waitFor(() => expect(submitButton).toBeDisabled());
     const selectInputs = screen.getAllByRole("combobox");
@@ -96,7 +96,7 @@ describe("CreateRace Component", () => {
     expect(screen.getByText("Tom")).toBeVisible();
 
     const submitButtonAfterSelect = screen.getByRole("button", {
-      name: "submit",
+      name: "Submit",
     });
     await waitFor(() => expect(submitButtonAfterSelect).not.toBeDisabled());
     await user.click(submitButtonAfterSelect);
@@ -108,7 +108,7 @@ describe("CreateRace Component", () => {
     const user = userEvent.setup();
     const mockOnRefresh = vi.fn();
     render(<CreateRace onFinshed={mockOnRefresh} />);
-    const submitButton = screen.getByRole("button", { name: "submit" });
+    const submitButton = screen.getByRole("button", { name: "Submit" });
     // run useEffect to first valid form on init
     await waitFor(() => expect(submitButton).toBeDisabled());
     const selectInputs = screen.getAllByRole("combobox");
