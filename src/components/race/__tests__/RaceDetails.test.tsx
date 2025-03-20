@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it, Mock, vi } from "vitest";
 import { useRaceList } from "@/hooks/useRaceList";
 import { mockPastRaces } from "@/__tests__/mock";
 import { Race } from "@/types";
+import userEvent from "@testing-library/user-event";
 
 vi.mock("@/hooks/useRaceList");
 
@@ -14,7 +15,8 @@ describe("RaceDetails Component", () => {
     });
   });
 
-  it("should show student name with given order", () => {
+  it("should show student name with given order and able to add results if there is no results", async () => {
+    const user = userEvent.setup();
     const noResultsRace: Race = {
       id: "1",
       raceName: "Race 1",
@@ -41,8 +43,16 @@ describe("RaceDetails Component", () => {
         },
       ],
     };
-    render(<RaceDetails race={noResultsRace} />);
+    const mockOnRefreshList = vi.fn();
+    render(
+      <RaceDetails race={noResultsRace} onRefreshList={mockOnRefreshList} />
+    );
     expect(screen.getByText("No results found!")).toBeVisible();
+    const addResultsButton = screen.getByRole("button", { name: "Add result" });
+    expect(addResultsButton).toBeEnabled();
+    await user.click(addResultsButton);
+    expect(screen.getByText("Rank 1:")).toBeVisible();
+    expect(screen.queryByRole("button", { name: "Add result" })).toBeNull();
   });
 
   it("should show 'No results found!' if no results", () => {
@@ -94,7 +104,10 @@ describe("RaceDetails Component", () => {
         },
       ],
     };
-    render(<RaceDetails race={withResultsRace} />);
+    const mockOnRefreshList = vi.fn();
+    render(
+      <RaceDetails race={withResultsRace} onRefreshList={mockOnRefreshList} />
+    );
     expect(screen.queryByText("No results found!")).toBeNull();
 
     const items = screen.getAllByRole("listitem");

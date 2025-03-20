@@ -4,11 +4,11 @@ import { beforeEach, describe, expect, it, Mock, vi } from "vitest";
 import { useStudentList } from "@/hooks/useStudentList";
 import { mockStudents } from "@/__tests__/mock";
 import userEvent from "@testing-library/user-event";
-import { createLaneHandler } from "@/mockApis/handlers/createLane.handler";
+import { createRaceHandler } from "@/mockApis/handlers/createRace.handler";
 
 vi.mock("@/hooks/useStudentList");
 const mockCreate = vi.fn();
-vi.mock("@/mockApis/handlers/createLane.handler");
+vi.mock("@/mockApis/handlers/createRace.handler");
 
 describe("CreateRace Component", () => {
   beforeEach(() => {
@@ -16,11 +16,12 @@ describe("CreateRace Component", () => {
       studentList: mockStudents,
     });
 
-    (createLaneHandler as Mock).mockImplementation(mockCreate);
+    (createRaceHandler as Mock).mockImplementation(mockCreate);
   });
 
   it("should default with 2 lanes and can not remove from it", () => {
-    render(<CreateRace />);
+    const mockOnRefresh = vi.fn();
+    render(<CreateRace onFinshed={mockOnRefresh} />);
     const items = screen.getAllByText(/Lane /);
     expect(items.length).toEqual(2);
 
@@ -33,7 +34,8 @@ describe("CreateRace Component", () => {
 
   it("should able to add lane and remove lane", async () => {
     const user = userEvent.setup();
-    render(<CreateRace />);
+    const mockOnRefresh = vi.fn();
+    render(<CreateRace onFinshed={mockOnRefresh} />);
     const addLaneButton = screen.getByRole("button", { name: "Add lane" });
     const items = screen.getAllByText(/Lane /);
     expect(items.length).toEqual(2);
@@ -52,7 +54,8 @@ describe("CreateRace Component", () => {
 
   it("should only able to select student who is not assigned to the lane", async () => {
     const user = userEvent.setup();
-    render(<CreateRace />);
+    const mockOnRefresh = vi.fn();
+    render(<CreateRace onFinshed={mockOnRefresh} />);
     const selectInputs = screen.getAllByRole("combobox");
     const firstOption = selectInputs[0];
     await user.click(firstOption);
@@ -72,7 +75,8 @@ describe("CreateRace Component", () => {
 
   it("should not able to submit only if form is filled and call mock api when submit", async () => {
     const user = userEvent.setup();
-    render(<CreateRace />);
+    const mockOnRefresh = vi.fn();
+    render(<CreateRace onFinshed={mockOnRefresh} />);
     const submitButton = screen.getByRole("button", { name: "submit" });
     // run useEffect to first valid form on init
     await waitFor(() => expect(submitButton).toBeDisabled());
@@ -97,11 +101,13 @@ describe("CreateRace Component", () => {
     await waitFor(() => expect(submitButtonAfterSelect).not.toBeDisabled());
     await user.click(submitButtonAfterSelect);
     expect(mockCreate).toBeCalledTimes(1);
+    expect(mockOnRefresh).toBeCalledTimes(1);
   });
 
   it("should able to select only one student for each lane", async () => {
     const user = userEvent.setup();
-    render(<CreateRace />);
+    const mockOnRefresh = vi.fn();
+    render(<CreateRace onFinshed={mockOnRefresh} />);
     const submitButton = screen.getByRole("button", { name: "submit" });
     // run useEffect to first valid form on init
     await waitFor(() => expect(submitButton).toBeDisabled());
