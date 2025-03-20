@@ -15,6 +15,9 @@ export const RacePanel = () => {
         <button
           disabled={tab === RacePaneTab.CREATE_NEW_RACE}
           onClick={() => setTab(RacePaneTab.CREATE_NEW_RACE)}
+          style={{
+            marginRight: "20px",
+          }}
         >
           Create new race
         </button>

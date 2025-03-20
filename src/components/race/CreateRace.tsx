@@ -36,7 +36,7 @@ export const CreateRace = ({ onFinshed }: { onFinshed: () => void }) => {
   } = useForm<RaceInputs>({
     mode: "onChange",
     defaultValues: {
-      raceName: "New Race Game!",
+      raceName: "New Race Game: " + uid(3),
       lanes: [
         {
           laneId: uid(),
@@ -94,7 +94,7 @@ export const CreateRace = ({ onFinshed }: { onFinshed: () => void }) => {
   return (
     <>
       <div>Create a race:</div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="create-race-container">
         <div>
           <input
             placeholder="please input race name"
@@ -103,14 +103,7 @@ export const CreateRace = ({ onFinshed }: { onFinshed: () => void }) => {
         </div>
 
         {laneFields.map((laneField, index) => (
-          <div
-            key={laneField.id}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
+          <div key={laneField.id} className="lane-item">
             <div>{`Lane ${index + 1}`}:</div>
             <div style={{ width: "80%" }}>
               <Controller
@@ -147,11 +140,13 @@ export const CreateRace = ({ onFinshed }: { onFinshed: () => void }) => {
           </div>
         ))}
 
-        <button onClick={onAddMoreLane}>Add lane</button>
+        <div>
+          <button onClick={onAddMoreLane}>Add lane</button>
+        </div>
 
         <div>
           <button type="submit" disabled={Object.keys(errors).length !== 0}>
-            submit
+            Submit
           </button>
         </div>
       </form>
